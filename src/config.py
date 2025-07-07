@@ -2,13 +2,12 @@ from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class ExampleAppSettings(BaseModel):
+class WalletSetting(BaseModel):
     """
-    Настройки приложения.
+    Настройки приложения wallet.
     """
 
-    app_prefix: str = "/example-domain"
-    router_prefix: str = "/example-router"
+    app_prefix: str = "/wallets"
 
 
 class ApiSettings(BaseModel):
@@ -18,6 +17,7 @@ class ApiSettings(BaseModel):
 
     api_prefix: str = "/api"
     v1_prefix: str = "/v1"
+    wallets: WalletSetting = WalletSetting()
 
 
 class DatabaseSettings(BaseModel):
