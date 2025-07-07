@@ -1,0 +1,1 @@
+from src.repositories.wallets.wallet_repository import WalletRepository
