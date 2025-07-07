@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: ${APP__APP_CONTAINER_NAME:-app}
+    command: bash entrypoint.sh uvicorn src.main:app --host 0.0.0.0 --port ${APP__APPLICATION_PORT:-8000} --reload
+    depends_on:
+      - postgres
+    volumes:
+      - ../src:/app/src/
+      - ../alembic:/app/alembic/
+      - ../tests:/app/tests/
+    ports:
+      - 8000:8000
