@@ -1,0 +1,11 @@
+services:
+  nginx:
+    build:
+      context: ..
+      dockerfile: nginx.Dockerfile
+    container_name: nginx
+    ports:
+      - 8000:80
+    depends_on:
+      - app
+      - postgres

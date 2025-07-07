@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${APP__DB__NAME}
+      POSTGRES_USER: ${APP__DB__USER}
+      POSTGRES_PASSWORD: ${APP__DB__PASSWORD}
