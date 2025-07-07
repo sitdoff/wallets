@@ -63,7 +63,6 @@ class Settings(BaseSettings):
     app_port: int
     api: ApiSettings = ApiSettings()
     db: DatabaseSettings = DatabaseSettings()
-    example_app: ExampleAppSettings = ExampleAppSettings()
 
     model_config = SettingsConfigDict(
         env_file=(".env.example", ".env"),
