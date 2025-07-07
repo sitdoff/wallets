@@ -6,5 +6,4 @@ class AbstractSerice(ABC):
 
 
 class BaseService(AbstractSerice):
-    def __init__(self, repository):
-        self.repository = repository
+    pass
