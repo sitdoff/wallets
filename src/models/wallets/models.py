@@ -4,7 +4,7 @@ from decimal import Decimal
 from sqlalchemy import DECIMAL, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.utils import BaseModel
+from src.models import BaseModel
 
 
 class WalletModel(BaseModel):
