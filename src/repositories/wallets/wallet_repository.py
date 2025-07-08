@@ -17,7 +17,7 @@ class WalletRepository(BaseRepository):
 
     async def create(self) -> WalletModel:  # type: ignore
         """
-        Создание кошелька
+        Создание кошелька в базе данных
         """
         wallet = WalletModel()
         self.session.add(wallet)
@@ -27,7 +27,7 @@ class WalletRepository(BaseRepository):
 
     async def get_all(self) -> Sequence[WalletModel]:  # type: ignore
         """
-        Получение списка существующий кошельков
+        Получение списка существующий кошельков из базы данных
         """
         statement = select(self.model)
         result = await self.session.execute(statement)
@@ -36,13 +36,13 @@ class WalletRepository(BaseRepository):
 
     async def get_by_uuid(self, uuid: UUID, for_update: bool = False) -> WalletModel:  # type: ignore
         """
-        Получение кошелька по uuid
+        Получение кошелька по uuid из базы данных
         """
         return await self.get_by_id(id=str(uuid), for_update=for_update)
 
     async def get_by_id(self, id: str, for_update: bool = False) -> WalletModel:  # type: ignore
         """
-        Получение кошелька по primary key
+        Получение кошелька по primary key из базы данных
         """
         statement = select(self.model).where(self.model.uuid == id)
         if for_update:
