@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.models import WalletModel
 from src.repositories import WalletRepository
-from src.utils.base_service import BaseService
+from src.services import BaseService
 
 
 class WalletService(BaseService):
