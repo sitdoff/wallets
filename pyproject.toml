@@ -6,15 +6,12 @@ authors = [
     {name = "Roman Ivanov",email = "sitdoff@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.13,<4.0"
 dependencies = [
     "fastapi[all] (>=0.115.14,<0.116.0)",
     "sqlalchemy[asyncio] (>=2.0.41,<3.0.0)",
     "alembic (>=1.16.2,<2.0.0)",
     "asyncpg (>=0.30.0,<0.31.0)",
-    "pytest (>=8.4.1,<9.0.0)",
-    "httpx (>=0.28.1,<0.29.0)",
-    "pytest-asyncio (>=1.0.0,<2.0.0)"
 ]
 
 
@@ -27,4 +24,10 @@ package-mode = false
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
+testcontainers = {extras = ["postgres"], version = "^4.10.0"}
+mypy = "^1.16.1"
+pylint = "^3.3.7"
+pytest = "^8.4.1"
+httpx = "^0.28.1"
+pytest-asyncio = "^1.0.0"
 
