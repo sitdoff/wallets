@@ -2,8 +2,9 @@ services:
   app:
     build:
       context: ..
-      dockerfile: Dockerfile
+      dockerfile: compose/dockerfiles/Dockerfile
     container_name: "wallets"
-    command: bash entrypoint.sh uvicorn src.main:app --host 0.0.0.0 --port ${APP__APPLICATION_PORT:-8000} --reload
+    restart: always
+    command: bash entrypoint.sh uvicorn src.main:app --host 0.0.0.0 --port ${APP__APPLICATION_PORT:-8000}
     depends_on:
       - postgres
