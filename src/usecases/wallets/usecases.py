@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.models import WalletModel
 from src.schemas import OperationSchema, WalletBalance, WalletSchema
 from src.services import WalletService
-from src.utils import BaseUseCase
+from src.usecases import BaseUseCase
 
 
 class WalletUseCase(BaseUseCase):
