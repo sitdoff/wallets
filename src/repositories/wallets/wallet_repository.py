@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 
 from src.models import WalletModel
-from src.utils import BaseRepository
+from src.repositories import BaseRepository
 
 
 class WalletRepository(BaseRepository):

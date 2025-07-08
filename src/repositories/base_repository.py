@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from sqlalchemy.ext.asyncio import AsyncSession, AsyncSessionTransaction
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class AbstractRepository(ABC):
