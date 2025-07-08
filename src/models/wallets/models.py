@@ -2,12 +2,16 @@ import uuid
 from decimal import Decimal
 
 from sqlalchemy import DECIMAL, String
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
 from src.utils import BaseModel
 
 
 class WalletModel(BaseModel):
+    """
+    Модель кошелька для базы данных.
+    """
+
     __tablename__ = "wallet"
 
     uuid: Mapped[str] = mapped_column(
