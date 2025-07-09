@@ -45,4 +45,5 @@ async def change_balance(
     session: Annotated[AsyncSession, Depends(db_helper.get_session)],
 ) -> WalletBalance:
     usecase = WalletUseCase(session=session, service=WalletService(session))
-    return await usecase.change_wallet_balance(uuid, operation_scheme)
+    async with session.begin():
+        return await usecase.change_wallet_balance(uuid, operation_scheme)
