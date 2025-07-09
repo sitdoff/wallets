@@ -1,8 +1,10 @@
-from typing import Sequence
+from typing import Annotated, Sequence
 from uuid import UUID
 
+from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.database import db_helper
 from src.models import WalletModel
 from src.schemas import OperationSchema, WalletBalance, WalletSchema
 from src.services import WalletService
@@ -10,6 +12,10 @@ from src.usecases import BaseUseCase
 
 
 class WalletUseCase(BaseUseCase):
+    """
+    Класс-оркестратор сервисов.
+    """
+
     def __init__(self, session: AsyncSession, service: WalletService):
         self.session = session
         self.service = service
@@ -50,3 +56,9 @@ class WalletUseCase(BaseUseCase):
         if operation_scheme.operation_type == "WITHDRAW":
             await self.service.decrease_balance(uuid, operation_scheme.amount)
         return await self.get_wallet_balance(uuid)
+
+
+async def get_usecase(
+    session: Annotated[AsyncSession, Depends(db_helper.get_session)],
+) -> WalletUseCase:
+    return WalletUseCase(session=session, service=WalletService(session))
