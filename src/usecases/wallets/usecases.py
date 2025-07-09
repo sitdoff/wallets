@@ -45,9 +45,8 @@ class WalletUseCase(BaseUseCase):
         """
         Изменение баланса кошелька
         """
-        async with self.session.begin():
-            if operation_scheme.operation_type == "DEPOSIT":
-                await self.service.increase_balance(uuid, operation_scheme.amount)
-            if operation_scheme.operation_type == "WITHDRAW":
-                await self.service.decrease_balance(uuid, operation_scheme.amount)
-            return await self.get_wallet_balance(uuid)
+        if operation_scheme.operation_type == "DEPOSIT":
+            await self.service.increase_balance(uuid, operation_scheme.amount)
+        if operation_scheme.operation_type == "WITHDRAW":
+            await self.service.decrease_balance(uuid, operation_scheme.amount)
+        return await self.get_wallet_balance(uuid)
