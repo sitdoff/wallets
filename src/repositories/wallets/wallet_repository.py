@@ -34,7 +34,7 @@ class WalletRepository(BaseRepository):
         wallets = result.scalars().all()
         return wallets
 
-    async def get_by_uuid(self, uuid: UUID, for_update: bool = False) -> WalletModel:  # type: ignore
+    async def get_by_uuid(self, uuid: UUID | str, for_update: bool = False) -> WalletModel:  # type: ignore
         """
         Получение кошелька по uuid из базы данных
         """
