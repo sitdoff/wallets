@@ -44,7 +44,6 @@ class DatabaseManager:
         """
         await self.engine.dispose()
 
-    @asynccontextmanager
     async def get_session(self) -> AsyncGenerator[AsyncSession, None]:
         """
         Метод-герератор возвращающий объект сессии.
