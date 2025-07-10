@@ -1,7 +1,8 @@
+import uuid as python_uuid
 from decimal import Decimal
-from uuid import UUID, uuid4
 
-from sqlalchemy import DECIMAL, UUID
+from sqlalchemy import DECIMAL
+from sqlalchemy import UUID as ac_UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.models import BaseModel
@@ -14,10 +15,10 @@ class WalletModel(BaseModel):
 
     __tablename__ = "wallets"
 
-    uuid: Mapped[UUID] = mapped_column(
-        UUID(as_uuid=True),
+    uuid: Mapped[python_uuid.UUID] = mapped_column(
+        ac_UUID(as_uuid=True),
         primary_key=True,
-        default=uuid4,
+        default=python_uuid.uuid4,
     )
     balance: Mapped[Decimal] = mapped_column(
         DECIMAL(precision=12, scale=2),
