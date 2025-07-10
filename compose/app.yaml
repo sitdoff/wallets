@@ -1,5 +1,5 @@
 services:
-  app:
+  wallets:
     build:
       context: ..
       dockerfile: compose/dockerfiles/Dockerfile
