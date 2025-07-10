@@ -26,7 +26,7 @@ class WalletUseCase(BaseUseCase):
         """
         wallets: Sequence[WalletModel] = await self.service.get_all_wallets()
         return [
-            WalletSchema(uuid=wallet.uuid, balance=wallet.balance) for wallet in wallets
+            WalletSchema(uuid=wallet.uuid, balance=wallet.balance) for wallet in wallets  # type: ignore[arg-type]
         ]
 
     async def get_wallet_balance(self, uuid: UUID) -> WalletBalance:
@@ -41,7 +41,7 @@ class WalletUseCase(BaseUseCase):
         Создание кошелька
         """
         wallet: WalletModel = await self.service.create_wallet()
-        return WalletSchema(uuid=wallet.uuid, balance=wallet.balance)
+        return WalletSchema(uuid=wallet.uuid, balance=wallet.balance)  # type: ignore[arg-type]
 
     async def change_wallet_balance(
         self,
@@ -51,8 +51,12 @@ class WalletUseCase(BaseUseCase):
         """
         Изменение баланса кошелька
         """
+        if operation_scheme.amount <= 0:
+            raise ValueError("Operation amount should be greater than 0")
         if operation_scheme.operation_type == "DEPOSIT":
             await self.service.increase_balance(uuid, operation_scheme.amount)
-        if operation_scheme.operation_type == "WITHDRAW":
+        elif operation_scheme.operation_type == "WITHDRAW":
             await self.service.decrease_balance(uuid, operation_scheme.amount)
+        else:
+            raise ValueError("Operation type should be 'DEPOSIT' or 'WITHDRAW'")
         return await self.get_wallet_balance(uuid)
