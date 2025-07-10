@@ -2,8 +2,8 @@ services:
   wallets:
     build:
       context: ..
-      dockerfile: compose/dockerfiles/Dockerfile
-    container_name: "wallets"
+      dockerfile: ./compose/dockerfiles/Dockerfile
+    container_name: wallets-app
     restart: always
     command: bash entrypoint.sh uvicorn src.main:app --host 0.0.0.0 --port ${APP__APPLICATION_PORT:-8000}
     depends_on:
