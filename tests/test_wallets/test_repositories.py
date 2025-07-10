@@ -11,7 +11,7 @@ async def test_create_wallet(repository):
     wallet = await repository.create()
 
     assert isinstance(wallet, WalletModel)
-    assert isinstance(wallet.uuid, str)
+    assert isinstance(wallet.uuid, UUID)
 
 
 @pytest.mark.asyncio
