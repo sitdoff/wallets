@@ -15,7 +15,7 @@ class WalletRepository(BaseRepository):
 
     model = WalletModel
 
-    async def create(self) -> WalletModel:  # type: ignore
+    async def create(self) -> WalletModel:
         """
         Создание кошелька в базе данных
         """
@@ -25,7 +25,7 @@ class WalletRepository(BaseRepository):
         await self.session.refresh(wallet)
         return wallet
 
-    async def get_all(self) -> Sequence[WalletModel]:  # type: ignore
+    async def get_all(self) -> Sequence[WalletModel]:
         """
         Получение списка существующий кошельков из базы данных
         """
@@ -34,13 +34,13 @@ class WalletRepository(BaseRepository):
         wallets = result.scalars().all()
         return wallets
 
-    async def get_by_uuid(self, uuid: UUID | str, for_update: bool = False) -> WalletModel:  # type: ignore
+    async def get_by_uuid(self, uuid: UUID, for_update: bool = False) -> WalletModel:
         """
         Получение кошелька по uuid из базы данных
         """
-        return await self.get_by_id(id=str(uuid), for_update=for_update)
+        return await self.get_by_id(id=uuid, for_update=for_update)
 
-    async def get_by_id(self, id: str, for_update: bool = False) -> WalletModel:  # type: ignore
+    async def get_by_id(self, id: UUID, for_update: bool = False) -> WalletModel:
         """
         Получение кошелька по primary key из базы данных
         """
