@@ -1,10 +1,8 @@
-from typing import Annotated, Sequence
+from typing import Sequence
 from uuid import UUID
 
-from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.database import db_helper
 from src.models import WalletModel
 from src.schemas import OperationSchema, WalletBalance, WalletSchema
 from src.services import WalletService
