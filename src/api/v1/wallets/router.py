@@ -1,20 +1,19 @@
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Path, status
-from sqlalchemy.exc import NoResultFound
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter, Body, Depends, Path
 
 from src.api.v1.wallets.docs import docs as wallets_docs
-from src.database import db_helper
 from src.dependencies import get_wallet_usecase
 from src.schemas import OperationSchema, WalletBalance, WalletSchema
 from src.usecases import WalletUseCase
+from src.utils import handle_exceptions
 
 router = APIRouter()
 
 
 @router.get("/all", **wallets_docs["all"])
+@handle_exceptions
 async def get_all_wallets(
     usecase: Annotated[WalletUseCase, Depends(get_wallet_usecase)],
 ) -> list[WalletSchema]:
@@ -22,17 +21,16 @@ async def get_all_wallets(
 
 
 @router.get("/{uuid}", **wallets_docs["balance"])
+@handle_exceptions
 async def get_balance(
     uuid: Annotated[UUID, Path(description="Уникальный идентификатор кошелька")],
     usecase: Annotated[WalletUseCase, Depends(get_wallet_usecase)],
 ) -> WalletBalance:
-    try:
-        return await usecase.get_wallet_balance(uuid)
-    except NoResultFound as exc:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc))
+    return await usecase.get_wallet_balance(uuid)
 
 
 @router.post("/create", **wallets_docs["create"])
+@handle_exceptions
 async def create_wallet(
     usecase: Annotated[WalletUseCase, Depends(get_wallet_usecase)],
 ) -> WalletSchema:
@@ -40,15 +38,12 @@ async def create_wallet(
 
 
 @router.post("/{uuid}/operation", **wallets_docs["operation"])
+@handle_exceptions
 async def change_balance(
     uuid: Annotated[UUID, Path(description="Уникальный идентификатор кошелька")],
-    operation_scheme: Annotated[OperationSchema, Body()],
+    operation_scheme: Annotated[
+        OperationSchema, Body(description="Cхема тела запроса операции")
+    ],
     usecase: Annotated[WalletUseCase, Depends(get_wallet_usecase)],
-    session: Annotated[AsyncSession, Depends(db_helper.get_session)],
 ) -> WalletBalance:
-    try:
-        return await usecase.change_wallet_balance(uuid, operation_scheme)
-    except ValueError as exc:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
-    except NoResultFound as exc:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc))
+    return await usecase.change_wallet_balance(uuid, operation_scheme)
