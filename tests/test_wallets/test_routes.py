@@ -7,7 +7,7 @@ from httpx import ASGITransport, AsyncClient, Response
 from sqlalchemy.exc import NoResultFound
 
 from src.config import settings
-from src.dependencies import get_usecase
+from src.dependencies import get_wallet_usecase
 from src.main import app
 from src.schemas import WalletBalance, WalletSchema
 
@@ -49,7 +49,7 @@ async def async_client():
 
 @pytest.fixture(autouse=True)
 def override_usecase(mock_wallet_usecase):
-    app.dependency_overrides[get_usecase] = lambda: mock_wallet_usecase
+    app.dependency_overrides[get_wallet_usecase] = lambda: mock_wallet_usecase
     yield
     app.dependency_overrides = {}
 

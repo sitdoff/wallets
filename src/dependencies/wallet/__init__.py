@@ -1,1 +1,1 @@
-from src.dependencies.wallet.dependencies import get_usecase
+from src.dependencies.wallet.dependencies import get_wallet_usecase

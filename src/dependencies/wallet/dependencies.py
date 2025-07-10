@@ -8,7 +8,7 @@ from src.services import WalletService
 from src.usecases import WalletUseCase
 
 
-async def get_usecase(
+async def get_wallet_usecase(
     session: Annotated[AsyncSession, Depends(db_helper.get_session)],
 ) -> WalletUseCase:
     return WalletUseCase(session=session, service=WalletService(session))
