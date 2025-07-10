@@ -9,6 +9,7 @@ from src.models import WalletModel
 from src.schemas import OperationSchema, WalletBalance, WalletSchema
 from src.services import WalletService
 from src.usecases import BaseUseCase
+from src.utils import transactional
 
 
 class WalletUseCase(BaseUseCase):
@@ -43,6 +44,7 @@ class WalletUseCase(BaseUseCase):
         wallet: WalletModel = await self.service.create_wallet()
         return WalletSchema(uuid=wallet.uuid, balance=wallet.balance)  # type: ignore[arg-type]
 
+    @transactional
     async def change_wallet_balance(
         self,
         uuid: UUID,

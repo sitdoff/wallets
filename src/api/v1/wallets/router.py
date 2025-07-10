@@ -46,12 +46,9 @@ async def change_balance(
     usecase: Annotated[WalletUseCase, Depends(get_wallet_usecase)],
     session: Annotated[AsyncSession, Depends(db_helper.get_session)],
 ) -> WalletBalance:
-    async with session.begin():
-        try:
-            return await usecase.change_wallet_balance(uuid, operation_scheme)
-        except ValueError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)
-            )
-        except NoResultFound as exc:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc))
+    try:
+        return await usecase.change_wallet_balance(uuid, operation_scheme)
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
+    except NoResultFound as exc:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc))
