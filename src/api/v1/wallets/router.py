@@ -7,8 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.api.v1.wallets.docs import docs as wallets_docs
 from src.database import db_helper
+from src.dependencies import get_usecase
 from src.schemas import OperationSchema, WalletBalance, WalletSchema
-from src.usecases import WalletUseCase, get_usecase
+from src.usecases import WalletUseCase
 
 router = APIRouter()
 
@@ -48,5 +49,9 @@ async def change_balance(
     async with session.begin():
         try:
             return await usecase.change_wallet_balance(uuid, operation_scheme)
+        except ValueError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)
+            )
         except NoResultFound as exc:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc))

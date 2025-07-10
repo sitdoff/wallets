@@ -56,9 +56,3 @@ class WalletUseCase(BaseUseCase):
         if operation_scheme.operation_type == "WITHDRAW":
             await self.service.decrease_balance(uuid, operation_scheme.amount)
         return await self.get_wallet_balance(uuid)
-
-
-async def get_usecase(
-    session: Annotated[AsyncSession, Depends(db_helper.get_session)],
-) -> WalletUseCase:
-    return WalletUseCase(session=session, service=WalletService(session))
