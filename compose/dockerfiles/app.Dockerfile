@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir "poetry==$POETRY_VERSION"
 WORKDIR /app
 COPY . .
 RUN poetry config virtualenvs.in-project true \
-    && poetry install --no-root \
+    && poetry install --no-root --without dev \
     && chmod +x entrypoint.sh wait-for-it.sh
 
 # Финальный образ
