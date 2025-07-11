@@ -1,5 +1,7 @@
 from fastapi import status
 
+validation_error = {}
+
 docs = {
     "all": {
         "summary": "Список кошельков",
@@ -37,7 +39,29 @@ docs = {
                         },
                     }
                 },
-            }
+            },
+            404: {
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "detail": "Wallet with uuid=b48d01b9-0021-4b5c-b01b-404fb2cd40c1 not found"
+                        },
+                    },
+                },
+            },
+            422: {
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "detail": {
+                                "parametr_type": "path",
+                                "field": "uuid",
+                                "message": "Value must be a Guid",
+                            }
+                        },
+                    }
+                },
+            },
         },
     },
     "create": {
@@ -60,7 +84,8 @@ docs = {
     },
     "operation": {
         "summary": "Изменение баланса кошелька",
-        "description": 'Увеличение или уменьшение баланса кошелька на заданную величину.  Параметр operation_type определяет тип операции, может принимать значения "DEPOSIT" или "WITHDRAW"',
+        "description": 'Увеличение или уменьшение баланса кошелька на заданную величину.  \
+                        Параметр operation_type определяет тип операции, может принимать значения "DEPOSIT" или "WITHDRAW"',
         "response_description": "Баланс кошелька после операции",
         "responses": {
             200: {
@@ -71,7 +96,29 @@ docs = {
                         },
                     }
                 },
-            }
+            },
+            404: {
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "detail": "Wallet with uuid=b48d01b9-0021-4b5c-b01b-404fb2cd40c1 not found"
+                        },
+                    }
+                },
+            },
+            422: {
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "detail": {
+                                "parametr_type": "body",
+                                "field": "amount",
+                                "message": "Input should be greater than 0",
+                            }
+                        },
+                    }
+                },
+            },
         },
     },
 }
