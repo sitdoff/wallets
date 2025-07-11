@@ -17,7 +17,7 @@ async def test_create_wallet(repository):
 @pytest.mark.asyncio
 async def test_get_all_wallets_len(repository):
     wallets = await repository.get_all()
-    assert len(wallets) == 1
+    assert len(wallets) == 0
 
 
 @pytest.mark.asyncio
@@ -26,7 +26,7 @@ async def test_get_all_wallets_after_create(repository):
     await repository.create()
     wallets = await repository.get_all()
 
-    assert len(wallets) >= 3
+    assert len(wallets) == 2
     assert all(isinstance(wallet, WalletModel) for wallet in wallets)
 
 

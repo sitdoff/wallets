@@ -33,14 +33,16 @@ async def db_engine(postgres_container: PostgresContainer):
 async def session(db_engine):
     session_factory = async_sessionmaker(
         bind=db_engine,
+        class_=AsyncSession,
         autoflush=False,
         expire_on_commit=False,
-        class_=AsyncSession,
+        autocommit=False,
     )
     async with session_factory() as session:
         try:
             yield session
         finally:
+            await session.rollback()
             await session.close()
 
 
