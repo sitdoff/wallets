@@ -19,14 +19,15 @@ class WalletUseCase(BaseUseCase):
         self.session = session
         self.service = service
 
+    def _convert(self, wallet: WalletModel) -> WalletSchema:
+        return WalletSchema(uuid=wallet.uuid, balance=wallet.balance)
+
     async def get_all_wallets(self) -> list[WalletSchema]:
         """
         Получение данных о всех кошельках из базы данных.
         """
         wallets: Sequence[WalletModel] = await self.service.get_all_wallets()
-        return [
-            WalletSchema(uuid=wallet.uuid, balance=wallet.balance) for wallet in wallets  # type: ignore[arg-type]
-        ]
+        return [self._convert(wallet) for wallet in wallets]
 
     async def get_wallet_balance(self, uuid: UUID) -> WalletBalance:
         """
@@ -40,7 +41,7 @@ class WalletUseCase(BaseUseCase):
         Создание кошелька
         """
         wallet: WalletModel = await self.service.create_wallet()
-        return WalletSchema(uuid=wallet.uuid, balance=wallet.balance)  # type: ignore[arg-type]
+        return self._convert(wallet)
 
     @transactional
     async def change_wallet_balance(
